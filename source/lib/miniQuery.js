@@ -20,6 +20,14 @@ miniQuery.prototype = {
       default:
         return document.getElementsByTagName(flag + tag)
     }
+  },
+
+  show: function(tag){
+    this.select(tag).style.visibility = "visible";
+  },
+
+  hide: function(tag){
+    this.select(tag).style.visibility = "hidden"; 
   }
 }
 
