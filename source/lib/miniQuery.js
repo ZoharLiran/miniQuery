@@ -62,6 +62,7 @@ miniQuery.prototype = {
     } 
   }
 }
+SweetSelector = new miniQuery()
 
 //gets an array, removes the matching cell, concats and returns a string
 removeClassFromArray = function(klasses, klass){
@@ -85,4 +86,39 @@ removeClassFromArray = function(klasses, klass){
   return result
 }
 
-SweetSelector = new miniQuery()
+EventDispatcher = function(){}
+EventDispatcher.prototype = {
+  on: function(tag, event, func){
+    item = SweetSelector.select(tag)
+    if (item.length === undefined) //it is an id
+    {
+      // debugger
+      item.addEventListener(event, func)
+    }
+    else // it's a class - could be multiple classes
+    {
+      for (var i = 0; i < item.length; i++)
+      {
+        item[i].addEventListener(event, func)
+      }
+    }
+  },
+
+  trigger: function(tag, event){
+    item = SweetSelector.select(tag)
+    event = new CustomEvent(event)
+    if (item.length === undefined) //it is an id
+    {
+      item.dispatchEvent(event)
+    }
+    else // it's a class - could be multiple classes
+    {
+      for (var i = 0; i < item.length; i++)
+      {
+        item[i].dispatchEvent(event)
+      }
+    }
+  }
+}
+
+disp = new EventDispatcher()
