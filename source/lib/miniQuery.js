@@ -12,11 +12,13 @@ miniQuery.prototype = {
     switch(flag)
     {
       case ".":
-        return document.getElementByClassName(tag);
+        return document.getElementsByClassName(tag);
         break;
       case "#":
         return document.getElementById(tag);
         break;
+      default:
+        return document.getElementsByTagName(flag + tag)
     }
   }
 }
