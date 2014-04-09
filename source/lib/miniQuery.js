@@ -63,9 +63,43 @@ miniQuery.prototype = {
   }
 }
 SweetSelector = new miniQuery()
-$ = function(elem){
-  return SweetSelector.select(elem);
+Wrapper = function(elem){
+  this.domElement = SweetSelector.select(elem);
+  this.input = elem
 }
+
+Wrapper.prototype = {
+  hide: function(){
+    SweetSelector.hide(this.input)
+    return this
+  },
+  show: function(){
+    SweetSelector.show(this.input)
+    return this
+  },
+  addClass: function(newClass){
+    SweetSelector.addClass(this.input, newClass)
+    return this
+  },
+  removeClass: function(classToRemove){
+    SweetSelector.removeClass(this.input, classToRemove)
+    return this
+  },
+  on: function(eventName, callback){
+    EventHandler.on(this.input, eventName, callback)
+    return this
+  },
+  trigger: function(eventName){
+    EventHandler.trigger(this.input, eventName)
+    return this
+  }
+}
+
+var miniQ = function(item){
+  return new Wrapper(item)
+}
+
+var $ = miniQ;
 
 
 //gets an array, removes the matching cell, concats and returns a string
@@ -124,7 +158,7 @@ EventDispatcher.prototype = {
     }
   }
 }
-disp = new EventDispatcher()
+EventHandler = new EventDispatcher()
 
 Ajax = function(){}
 Ajax.prototype = {
