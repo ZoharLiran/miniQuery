@@ -63,6 +63,10 @@ miniQuery.prototype = {
   }
 }
 SweetSelector = new miniQuery()
+$ = function(elem){
+  return SweetSelector.select(elem);
+}
+
 
 //gets an array, removes the matching cell, concats and returns a string
 removeClassFromArray = function(klasses, klass){
@@ -120,5 +124,31 @@ EventDispatcher.prototype = {
     }
   }
 }
-
 disp = new EventDispatcher()
+
+Ajax = function(){}
+Ajax.prototype = {
+  //params = {url: "", type:"", success: function(){}, fail:function()}
+  request: function(params){ 
+    var oReq = new XMLHttpRequest();
+    // oReq.onload = params.success()
+    oReq.onreadystatechange = function(){
+      if (oReq.readyState === 4)
+      {
+        if (oReq.status === 200)
+        {//OK          
+          params.success();
+          //we can use the result oReq.responseText
+        }
+        else
+        {//NOT OK
+          params.fail();
+        }
+      }
+    }
+    oReq.open(params.type, params.url);
+    oReq.send();
+  }
+}
+AjaxWrapper = new Ajax();
+
